@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const mongoClient = mongodb.MongoClient;
-const dbUrl =  'mongodb://localhost:27017';
+const dbUrl =  '"mongodb+srv://abhi:admin@cluster0.ujn56.mongodb.net/urlshortner?retryWrites=true&w=majority"';
 const port = process.env.PORT || 5700;
 
 app.use(express.json());
