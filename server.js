@@ -238,13 +238,13 @@ function authenticate(req,res,next){
                    next();
                }
                else{
-                res.send(401).json({message:"No authorisation."})          
+               return res.status(401).json({message:"No authorisation."})          
                }
             }             
          ) 
      } 
      else{
-         res.send(401).json({message:"No authorisation."})
+        return res.status(401).json({message:"No authorisation."})
      }
 }
 
