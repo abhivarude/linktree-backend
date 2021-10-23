@@ -223,9 +223,9 @@ app.get('/tree',authenticate,async(req,res)=>{
      }
 })
 
-app.get('/',authenticate,(req,res)=>{
-    res.status(200).json({message:"Success"});
-})
+// app.get('/',authenticate,(req,res)=>{
+//     res.status(200).json({message:"Success"});
+// })
 
 //for token authentication.
 function authenticate(req,res,next){
