@@ -37,7 +37,7 @@ app.post('/signup',async(req,res)=>{
        }
        let resp = await db.collection('users').insertOne(req.body);
        await db.collection('links').insertOne(postData);
-       sendMail(req.body.email,'Linktree-clone Account Activation', "<p>Please Click <a href='http://localhost:3000/activation/"+ req.body.email +"'>here<a> to activate your account.</p>");      
+       sendMail(req.body.email,'Linktree-clone Account Activation', "<p>Please Click <a href='https://linktree-frontend-main.herokuapp.com/activation/"+ req.body.email +"'>here<a> to activate your account.</p>");      
        res.status(200).json({message:"User Created"});
        }
        clientInfo.close();
@@ -97,7 +97,7 @@ app.post('/reset-pass-req',async(req,res)=>{
             tokenStatus:true
         }   
       await db.collection('fpTokens').insertOne(postData);
-      sendMail(check.email,'Linktree-clone password reset link', "<p>Please Click <a href='http://localhost:3000/pass-reset/"+ id +"'>here<a> to reset your password.</p>");
+      sendMail(check.email,'Linktree-clone password reset link', "<p>Please Click <a href='https://linktree-frontend-main.herokuapp.com/pass-reset/"+ id +"'>here<a> to reset your password.</p>");
       res.status(200).json({message:"Success"}); 
       }
       else{
