@@ -7,8 +7,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const mongoClient = mongodb.MongoClient;
-const dbUrl =  '"mongodb+srv://abhi:admin@cluster0.ujn56.mongodb.net/urlshortner?retryWrites=true&w=majority"';
-const port = process.env.PORT || 5700;
+const dbUrl = "mongodb+srv://abhi:admin@cluster0.ujn56.mongodb.net/urlshortner?retryWrites=true&w=majority";
+const port =5700;
 
 app.use(express.json());
 app.use(cors1());
@@ -19,12 +19,13 @@ app.post('/signup',async(req,res)=>{
      let db = clientInfo.db('linktree');
      let check = await db.collection('users').findOne({email:req.body.email});
      if(check){
-       res.send(400).json({message:"User already present"});
+       res.status(400).json({message:"User already present"});
+      
      }
      else{
        let check2 =await db.collection('users').findOne({userName:req.body.userName}); 
        if(check2){
-        res.send(422).json({message:"Username already present"});     
+        res.status(422).json({message:"Username already present"});     
        }  
        else{
        let salt =await bcrypt.genSalt(10);
@@ -68,11 +69,11 @@ app.post('/login',async(req,res)=>{
            res.status(200).json({message:"User logged In.",token:token,data:userdata})
         }
         else{
-            res.send(400).json({message:"Incorrect password."});    
+            res.status(400).json({message:"Incorrect password."});    
         }
     }
     else{
-        res.send(404).json({message:"User not present"});
+        res.status(404).json({message:"User not present"});
     }
     clientInfo.close();
    }
@@ -123,7 +124,7 @@ app.post('/pass-reset-confirm/:id',async(req,res)=>{
         res.status(200).json({message:"Success"});
         }
         else{
-         res.send(400).json({message:"Link is expired,try again.."});   
+         res.status(400).json({message:"Link is expired,try again.."});   
         }
      }
      catch(e){
@@ -223,9 +224,9 @@ app.get('/tree',authenticate,async(req,res)=>{
      }
 })
 
-// app.get('/',authenticate,(req,res)=>{
-//     res.status(200).json({message:"Success"});
-// })
+app.get('/',authenticate,(req,res)=>{
+    res.status(200).json({message:"Success"});
+})
 
 //for token authentication.
 function authenticate(req,res,next){
@@ -244,7 +245,7 @@ function authenticate(req,res,next){
          ) 
      } 
      else{
-        return res.status(401).json({message:"No authorisation."})
+       return  res.status(401).json({message:"No authorisation."})
      }
 }
 
@@ -252,13 +253,13 @@ function sendMail(_email,_subject,_content){
     let mailTransporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-         user:'shubhganeshan@gmail.com',
-         pass:'bytxnbanvbapmdln'
+         user:'abhijeetvarude123@gmail.com',
+         pass:'Abhijeet@123'
         }
     })
 
     let mailDetails = {
-        from: 'shubhganeshan@gmail.com',
+        from: 'abhijeetvarude123@gmail.com',
         to: _email,
         subject: _subject,
         html:_content
