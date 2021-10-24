@@ -58,7 +58,7 @@ app.post('/login',async(req,res)=>{
         if(checkPassword){
            let token = await jwt.sign(
                {user_id: check._id},
-              " process.env.JWT_KEY"
+              process.env.JWT_KEY
            )
 
            let userdata={
