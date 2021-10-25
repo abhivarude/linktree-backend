@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const mongoClient = mongodb.MongoClient;
 const dbUrl = "mongodb+srv://abhi:admin@cluster0.ujn56.mongodb.net/urlshortner?retryWrites=true&w=majority";
-const port =process.env.PORT||5700;
+const port =process.env.PORT||5800;
 
 app.use(express.json());
 app.use(cors1());
@@ -19,13 +19,13 @@ app.post('/signup',async(req,res)=>{
      let db = clientInfo.db('linktree');
      let check = await db.collection('users').findOne({email:req.body.email});
      if(check){
-       res.status(400).json({message:"User already present"});
+       return res.status(201).json({message:"User already present"});
       
      }
      else{
        let check2 =await db.collection('users').findOne({userName:req.body.userName}); 
        if(check2){
-        res.status(422).json({message:"Username already present"});     
+       return res.status(422).json({message:"Username already present"});     
        }  
        else{
        let salt =await bcrypt.genSalt(10);
@@ -38,7 +38,7 @@ app.post('/signup',async(req,res)=>{
        let resp = await db.collection('users').insertOne(req.body);
        await db.collection('links').insertOne(postData);
        sendMail(req.body.email,'Linktree-clone Account Activation', "<p>Please Click <a href='https://linktree-frontend-main.herokuapp.com/activation/"+ req.body.email +"'>here<a> to activate your account.</p>");      
-       res.status(200).json({message:"User Created"});
+       return res.status(200).json({message:"User Created"});
        }
        clientInfo.close();
      }
@@ -212,7 +212,7 @@ app.put('/update-tree',authenticate,async(req,res)=>{
 })
 
 //to get tree
-app.get('/tree',authenticate,async(req,res)=>{
+app.get('/tree',async(req,res)=>{
      try{
        let clientInfo = await mongoClient.connect(dbUrl);
        let db = clientInfo.db('linktree');
